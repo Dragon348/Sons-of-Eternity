@@ -80,7 +80,9 @@ public class GlobalMapScreen extends BaseScreen {
         stage.addActor(buttonTable);
         
         // Кнопка персонажа
-        characterButton = new TextButton("Персонаж", new TextButton.TextButtonStyle());
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+        characterButton = new TextButton("Персонаж", buttonStyle);
         characterButton.addListener(click -> {
             game.openCharacterScreen();
             return true;
@@ -88,7 +90,7 @@ public class GlobalMapScreen extends BaseScreen {
         buttonTable.add(characterButton).pad(5).row();
         
         // Кнопка крафта
-        craftButton = new TextButton("Крафт", new TextButton.TextButtonStyle());
+        craftButton = new TextButton("Крафт", buttonStyle);
         craftButton.addListener(click -> {
             game.openCraftingScreen();
             return true;
@@ -96,7 +98,7 @@ public class GlobalMapScreen extends BaseScreen {
         buttonTable.add(craftButton).pad(5).row();
         
         // Кнопка завершения хода
-        endTurnButton = new TextButton("Завершить ход", new TextButton.TextButtonStyle());
+        endTurnButton = new TextButton("Завершить ход", buttonStyle);
         endTurnButton.addListener(click -> {
             endTurn();
             return true;
