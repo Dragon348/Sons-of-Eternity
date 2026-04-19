@@ -1,6 +1,9 @@
 package com.rpg.game.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -333,9 +336,77 @@ public class GlobalMapScreen extends BaseScreen {
     
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        // Устанавливаем обработчик ввода: сначала Stage для кнопок, потом наш обработчик для клавиатуры
+        InputMultiplexer multiplexer = new InputMultiplexer(stage, new KeyboardInputHandler());
+        Gdx.input.setInputProcessor(multiplexer);
         centerCameraOnPlayer();
         updateUI();
+    }
+    
+    /**
+     * Обработчик нажатий клавиш для перемещения персонажа
+     */
+    private class KeyboardInputHandler extends InputAdapter {
+        @Override
+        public boolean keyDown(int keycode) {
+            Hex currentHex = game.getPlayer().getCurrentHex();
+            if (currentHex == null) return false;
+            
+            Hex targetHex = null;
+            int q = currentHex.getQ();
+            int r = currentHex.getR();
+            
+            // Управление стрелками или WASD
+            switch (keycode) {
+                case Input.Keys.UP:
+                case Input.Keys.W:
+                    targetHex = map.getHex(q, r - 1);
+                    break;
+                case Input.Keys.DOWN:
+                case Input.Keys.S:
+                    targetHex = map.getHex(q, r + 1);
+                    break;
+                case Input.Keys.LEFT:
+                case Input.Keys.A:
+                    targetHex = map.getHex(q - 1, r);
+                    break;
+                case Input.Keys.RIGHT:
+                case Input.Keys.D:
+                    targetHex = map.getHex(q + 1, r);
+                    break;
+                case Input.Keys.NUMPAD_7:
+                    targetHex = map.getHex(q - 1, r - 1);
+                    break;
+                case Input.Keys.NUMPAD_9:
+                    targetHex = map.getHex(q + 1, r - 1);
+                    break;
+                case Input.Keys.NUMPAD_1:
+                    targetHex = map.getHex(q - 1, r + 1);
+                    break;
+                case Input.Keys.NUMPAD_3:
+                    targetHex = map.getHex(q + 1, r + 1);
+                    break;
+                case Input.Keys.SPACE:
+                    endTurn();
+                    return true;
+            }
+            
+            if (targetHex != null) {
+                movePlayer(targetHex);
+                return true;
+            }
+            
+            return false;
+        }
+        
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            // Обработка кликов мыши/тача
+            if (button == Input.Buttons.LEFT) {
+                return handleTap(screenX, screenY);
+            }
+            return false;
+        }
     }
     
     @Override
