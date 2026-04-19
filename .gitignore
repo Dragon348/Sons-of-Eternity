@@ -5,11 +5,8 @@ build/
 target/
 
 # Dependencies
+lib/
 libs/
-
-# IDE
-.idea/
-.vscode/
 
 # Logs
 *.log
@@ -19,36 +16,29 @@ libs/
 .env.local
 *.env.*
 
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
 # OS
 .DS_Store
 Thumbs.db
-
-# Temporary files
-*.tmp
-*.swp
-*.swo
 
 # Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Python (if any Python files exist in the project)
+# Python (if applicable)
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-env/
-venv/
-.venv/
-
-# Compiled Java
-*.class
-*.jar
-*.war
-*.ear
-
-# MyPy
-.mypy_cache/
+*.so
+*.egg-info/
+.eggs/
+dist/
 ```

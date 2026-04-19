@@ -12,6 +12,7 @@ import com.rpg.game.crafting.CraftingSystem;
 import com.rpg.game.item.Item;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Экран крафта
@@ -81,12 +82,14 @@ public class CraftingScreen extends BaseScreen {
         infoTable.add().pad(20).row();
         
         // Кнопка крафта
-        craftButton = new TextButton("Создать", new TextButton.TextButtonStyle());
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+        craftButton = new TextButton("Создать", buttonStyle);
         craftButton.addListener(click -> {
             craftItem();
             return true;
         });
-        craftButton.setEnabled(false);
+        craftButton.setDisabled(true);
         infoTable.add(craftButton).width(200).height(50);
         
         mainTable.add(infoTable).top();
@@ -130,7 +133,7 @@ public class CraftingScreen extends BaseScreen {
         
         // Отображение ингредиентов
         StringBuilder ingredientsText = new StringBuilder();
-        for (var entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<Item, Integer> entry : recipe.getIngredients().entrySet()) {
             ingredientsText.append(entry.getKey().getName())
                           .append(": ")
                           .append(entry.getValue())
@@ -145,7 +148,7 @@ public class CraftingScreen extends BaseScreen {
         
         // Проверка возможности крафта
         boolean canCraft = game.getCraftingSystem().canCraft(recipe, game.getPlayer());
-        craftButton.setEnabled(canCraft);
+        craftButton.setDisabled(!canCraft);
     }
     
     /**

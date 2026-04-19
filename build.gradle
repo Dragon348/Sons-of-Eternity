@@ -27,7 +27,3 @@ project(':core') {
 project(':desktop') {
     apply from: '../desktop/build.gradle'
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '8.5'
-}
