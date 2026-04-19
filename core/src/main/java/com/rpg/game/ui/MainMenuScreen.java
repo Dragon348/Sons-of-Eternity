@@ -35,8 +35,12 @@ public class MainMenuScreen extends BaseScreen {
         Label titleLabel = new Label("HEX RPG", new Label.LabelStyle(font, null));
         table.add(titleLabel).colspan(2).padBottom(50).row();
         
+        // Стиль для кнопок
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+        
         // Кнопка новой игры
-        TextButton newGameButton = new TextButton("Новая игра", new TextButton.TextButtonStyle());
+        TextButton newGameButton = new TextButton("Новая игра", buttonStyle);
         newGameButton.addListener(click -> {
             game.returnToGlobalMap();
             return true;
@@ -44,7 +48,7 @@ public class MainMenuScreen extends BaseScreen {
         table.add(newGameButton).width(200).height(50).pad(10).row();
         
         // Кнопка выхода
-        TextButton exitButton = new TextButton("Выход", new TextButton.TextButtonStyle());
+        TextButton exitButton = new TextButton("Выход", buttonStyle);
         exitButton.addListener(click -> {
             Gdx.app.exit();
             return true;
