@@ -6,7 +6,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-mainClassName = 'com.rpg.game.desktop.DesktopLauncher'
+application {
+    mainClass = 'com.rpg.game.desktop.DesktopLauncher'
+}
 
 dependencies {
     implementation project(':core')
