@@ -8,8 +8,8 @@ target/
 lib/
 libs/
 
-# Logs
-*.log
+# Build artifacts
+build/
 
 # Environment
 .env
@@ -22,14 +22,21 @@ libs/
 *.swp
 *.swo
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Coverage
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+.venv-mamba/
+.envrc
+.pytest_cache/
+.mypy_cache/
+.coverage
 coverage/
 htmlcov/
-.coverage
 
 # Python (if applicable)
 __pycache__/
