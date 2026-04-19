@@ -1,8 +1,11 @@
 package com.rpg.game.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.GL20;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
@@ -16,8 +19,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.rpg.game.RPGGame;
 import com.rpg.game.hex.Hex;
 import com.rpg.game.map.GlobalMap;
+import com.rpg.game.hex.TerrainType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Экран глобальной гексагональной карты
@@ -34,6 +40,9 @@ public class GlobalMapScreen extends BaseScreen {
     private Hex selectedHex;
     private List<Hex> pathToTarget;
     
+    // Текстуры для типов местности
+    private Map<TerrainType, Texture> terrainTextures;
+    
     // UI элементы
     private Label positionLabel;
     private Label movementLabel;
@@ -49,8 +58,58 @@ public class GlobalMapScreen extends BaseScreen {
         this.stage = new Stage(new ScreenViewport());
         this.font = new BitmapFont();
         
+        initializeTerrainTextures();
         initializeCamera();
         initializeUI();
+    }
+    
+    /**
+     * Создание текстур для разных типов местности программно
+     */
+    private void initializeTerrainTextures() {
+        terrainTextures = new HashMap<>();
+        
+        // GRASS - зеленый
+        terrainTextures.put(TerrainType.GRASS, createHexTexture(new Color(0.2f, 0.6f, 0.2f, 1.0f)));
+        // FOREST - темно-зеленый
+        terrainTextures.put(TerrainType.FOREST, createHexTexture(new Color(0.1f, 0.4f, 0.1f, 1.0f)));
+        // MOUNTAIN - серый
+        terrainTextures.put(TerrainType.MOUNTAIN, createHexTexture(new Color(0.5f, 0.5f, 0.5f, 1.0f)));
+        // WATER - синий
+        terrainTextures.put(TerrainType.WATER, createHexTexture(new Color(0.2f, 0.4f, 0.8f, 1.0f)));
+        // DESERT - желтый
+        terrainTextures.put(TerrainType.DESERT, createHexTexture(new Color(0.9f, 0.8f, 0.3f, 1.0f)));
+        // SWAMP - болотный
+        terrainTextures.put(TerrainType.SWAMP, createHexTexture(new Color(0.4f, 0.5f, 0.3f, 1.0f)));
+        // ROAD - светло-серый
+        terrainTextures.put(TerrainType.ROAD, createHexTexture(new Color(0.7f, 0.7f, 0.6f, 1.0f)));
+        // CITY - коричневый
+        terrainTextures.put(TerrainType.CITY, createHexTexture(new Color(0.6f, 0.4f, 0.2f, 1.0f)));
+    }
+    
+    /**
+     * Создает текстуру гекса заданного цвета
+     */
+    private Texture createHexTexture(Color color) {
+        int size = (int)(hexSize * 2);
+        Pixmap pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
+        
+        // Рисуем гексагон
+        pixmap.setColor(color);
+        float center = size / 2f;
+        float radius = hexSize * 0.9f;
+        
+        // Заполняем фон прозрачным
+        pixmap.setColor(0, 0, 0, 0);
+        pixmap.fill();
+        
+        // Рисуем гексагон (упрощенно - круг для начала)
+        pixmap.setColor(color);
+        pixmap.fillCircle((int)center, (int)center, (int)(radius * 0.8f));
+        
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+        return texture;
     }
     
     private void initializeCamera() {
@@ -211,15 +270,42 @@ public class GlobalMapScreen extends BaseScreen {
     }
     
     private void drawHex(Hex hex) {
-        // TODO: Реализовать отрисовку гекса с учётом типа местности
+        Vector2 pixelPos = hex.toPixelCoordinates(hexSize);
+        Texture texture = terrainTextures.get(hex.getTerrain());
+        
+        if (texture != null) {
+            float originX = pixelPos.x - hexSize;
+            float originY = pixelPos.y - hexSize;
+            batch.draw(texture, originX, originY, hexSize * 2, hexSize * 2);
+        }
     }
     
     private void drawPath(List<Hex> path) {
-        // TODO: Реализовать отрисовку пути
+        // Отрисовка пути линией другого цвета
+        for (Hex hex : path) {
+            Vector2 pixelPos = hex.toPixelCoordinates(hexSize);
+            float originX = pixelPos.x - hexSize * 0.5f;
+            float originY = pixelPos.y - hexSize * 0.5f;
+            
+            // Рисуем маленький круг в центре гекса для обозначения пути
+            batch.setColor(1.0f, 1.0f, 0.0f, 0.8f); // Желтый цвет
+            batch.draw(terrainTextures.get(TerrainType.ROAD), originX, originY, hexSize, hexSize);
+            batch.setColor(1.0f, 1.0f, 1.0f, 1.0f); // Сброс цвета
+        }
     }
     
     private void drawPlayer() {
-        // TODO: Реализовать отрисовку спрайта игрока
+        Hex playerHex = game.getPlayer().getCurrentHex();
+        if (playerHex != null) {
+            Vector2 pixelPos = playerHex.toPixelCoordinates(hexSize);
+            float originX = pixelPos.x - hexSize * 0.3f;
+            float originY = pixelPos.y - hexSize * 0.3f;
+            
+            // Рисуем красный круг для игрока
+            batch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+            batch.draw(terrainTextures.get(TerrainType.CITY), originX, originY, hexSize * 0.6f, hexSize * 0.6f);
+            batch.setColor(1.0f, 1.0f, 1.0f, 1.0f); // Сброс цвета
+        }
     }
     
     private void updateUI() {
@@ -267,5 +353,9 @@ public class GlobalMapScreen extends BaseScreen {
         batch.dispose();
         stage.dispose();
         font.dispose();
+        // Освобождаем текстуры местности
+        for (Texture texture : terrainTextures.values()) {
+            texture.dispose();
+        }
     }
 }
