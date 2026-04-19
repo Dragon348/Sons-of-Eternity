@@ -55,7 +55,7 @@ public class Hex {
      */
     public Vector2 toPixelCoordinates(float hexSize) {
         float x = hexSize * (3f/2 * q);
-        float y = hexSize * (Math.sqrt(3)/2 * q + Math.sqrt(3) * r);
+        float y = hexSize * ((float)(Math.sqrt(3)/2) * q + (float)Math.sqrt(3) * r);
         return new Vector2(x, y);
     }
     

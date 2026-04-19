@@ -12,6 +12,7 @@ import com.rpg.game.crafting.CraftingSystem;
 import com.rpg.game.item.Item;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Экран крафта
@@ -130,7 +131,7 @@ public class CraftingScreen extends BaseScreen {
         
         // Отображение ингредиентов
         StringBuilder ingredientsText = new StringBuilder();
-        for (var entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<Item, Integer> entry : recipe.getIngredients().entrySet()) {
             ingredientsText.append(entry.getKey().getName())
                           .append(": ")
                           .append(entry.getValue())

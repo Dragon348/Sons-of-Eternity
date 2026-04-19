@@ -1,15 +1,19 @@
 ```
-# Gradle
-.gradle/
+# Build artifacts
 build/
 target/
 
 # Dependencies
-libs/
+.gradle/
+node_modules/
+venv/
+.venv/
 
-# IDE
-.idea/
-.vscode/
+# Compiled files
+*.class
+*.jar
+*.war
+*.ear
 
 # Logs
 *.log
@@ -19,36 +23,44 @@ libs/
 .env.local
 *.env.*
 
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
 # OS
 .DS_Store
 Thumbs.db
-
-# Temporary files
-*.tmp
-*.swp
-*.swo
 
 # Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Python (if any Python files exist in the project)
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-env/
-venv/
-.venv/
+*.so
+*.egg-info/
+.eggs/
 
-# Compiled Java
+# Java specific
 *.class
 *.jar
 *.war
 *.ear
+*.jsp
+!src/**/*.java
 
-# MyPy
-.mypy_cache/
+# Gradle
+.gradle/
+build/
+
+# Temp files
+*.tmp
+*.temp
 ```

@@ -6,6 +6,11 @@ import com.rpg.game.map.GlobalMap;
 import com.rpg.game.character.Character;
 import com.rpg.game.crafting.CraftingSystem;
 import com.rpg.game.battle.BattleSystem;
+import com.rpg.game.ui.MainMenuScreen;
+import com.rpg.game.ui.BattleScreen;
+import com.rpg.game.ui.CharacterScreen;
+import com.rpg.game.ui.CraftingScreen;
+import com.rpg.game.ui.GlobalMapScreen;
 
 /**
  * Основной класс игры libGDX
