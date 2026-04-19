@@ -8,12 +8,8 @@ target/
 node_modules/
 venv/
 .venv/
-
-# Compiled files
-*.class
-*.jar
-*.war
-*.ear
+__pycache__/
+*.egg-info/
 
 # Logs
 *.log
@@ -38,29 +34,14 @@ coverage/
 htmlcov/
 .coverage
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-*.egg-info/
-.eggs/
-
-# Java specific
+# Compiled files
 *.class
-*.jar
-*.war
-*.ear
-*.jsp
-!src/**/*.java
-
-# Gradle
-.gradle/
-build/
-
-# Temp files
-*.tmp
-*.temp
+*.pyc
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
 ```
