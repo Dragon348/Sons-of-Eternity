@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+
+allprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    
+    ext {
+        gdxVersion = '1.12.0'
+    }
+    
+    repositories {
+        mavenCentral()
+        google()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    }
+}
+
+project(':core') {
+    apply from: '../core/build.gradle'
+}
+
+project(':desktop') {
+    apply from: '../desktop/build.gradle'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '8.5'
+}
