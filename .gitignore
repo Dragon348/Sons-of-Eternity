@@ -1,7 +1,12 @@
 ```
-# Dependencies
+# Gradle
 .gradle/
-node_modules/
+build/
+target/
+
+# Dependencies
+lib/
+libs/
 
 # Build artifacts
 build/
@@ -11,12 +16,11 @@ build/
 .env.local
 *.env.*
 
-# Logs
-*.log
-
-# Editors
-.vscode/
+# IDE
 .idea/
+.vscode/
+*.swp
+*.swo
 
 # Python
 __pycache__/
@@ -34,36 +38,14 @@ venv/
 coverage/
 htmlcov/
 
-# Java
-*.class
-*.jar
-*.war
-*.ear
-*.tar
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
-*.gz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-
-# General
-*.tmp
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
+# Python (if applicable)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+.eggs/
+dist/
 ```
